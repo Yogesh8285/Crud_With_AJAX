@@ -1,0 +1,135 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-EVSTQN3/azprG1Anm3QDgpJLIm9Nao0Yz1ztcQTwFspd3yD65VohhpuuCOmLASjC" crossorigin="anonymous">
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.3/jquery.min.js"></script>
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/js/bootstrap.min.js"></script>
+    <title>Document</title>
+</head>
+{% block content %}
+      <!-- The Add Modal -->
+      <div class="modal" id="myModal">
+        <div class="modal-dialog">
+          <div class="modal-content">
+      
+            <!-- Modal Header -->
+            <div class="modal-header">
+              <h4 class="modal-title">Add Page</h4>
+              <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
+            </div>
+      
+            <!-- Modal body -->
+            <div class="modal-body">
+                <form method="post" id="addForm">
+                    {%csrf_token%}
+                    <div class="form-group row">
+                        <label for="enamea" class="col-sm-4 col-form-label">Employee name</label>
+                        <div class="col-sm-7">
+                          <input type="hidden" name="empid" id="ida">
+                          <input type="text" class="form-control" name="ename" id="enamea" oninput="passwor()"  placeholder="Employee name">
+                          <span id="sympbol_msg" style="color: red;font-size:10px;"></span>
+                        </div>
+                      </div>
+                    <div class="form-group row">
+                        <label for="emaila" class="col-sm-4 col-form-label">Enter Email</label>
+                        <div class="col-sm-7">
+                            <input type="email" class="form-control" name="email" id="emaila" placeholder="Enter Email">
+                            <span id="msg" style="color: red;font-size:10px;"></span>
+                        </div>
+                    </div>
+                    <div class="form-group row">
+                        <label for="doba" class="col-sm-4 col-form-label">Birth Date</label>
+                        <div class="col-sm-7">
+                          <input type="date" class="form-control" name="dob" id="doba">
+                        </div>
+                    </div>
+                    <div class="form-group row">
+                        <label for="gender" class="col-sm-4 col-form-label">Select Gender</label>
+                        <div class="col-sm-7">
+                          <!-- <input type="radio" name="gender"  class="gender" required value="Male"/> Male
+                          <input type="radio" name="gender" id="gendera" class="gender" required value="Female"/> Female -->
+                        
+                            <input type="radio" name="gender" id="gender" class="gender" value="Male"> Male
+                            <input type="radio" name="gender" id="gender" class="gender" value="Female"> Female
+                                                
+                        </div>
+                      </div>
+                    <div class="form-group row">
+                    <label for="educationa" class="col-sm-4 col-form-label">Select Education Field</label>
+                    <div class="col-sm-7">
+                        <select name="education" id="educationa" class="form-control form-control-md " required>
+                            <option disabled selected>Select Education</option>
+                            <option >BE</option>
+                            <option >Btech</option>
+                            <option >Bsc</option>
+                            <option >Bcom.</option>
+                            </optgroup>
+                        </select>
+                    </div>
+                    </div>
+                      <div class="form-group row">
+                        <label for="pass" class="col-sm-4 col-form-label">Password</label>
+                        <div class="col-sm-7">
+                          <input type="password" name="password" class="form-control" id="passworda" oninput="passwor()" required placeholder="Password">
+                          <span id="pass_condition" style="color: red;font-size:10px;"></span>
+                      </div>
+                    </div>
+                    <div class="form-group row" style="height:80px;">
+                      <label for="pass" class="col-sm-4 col-form-label">Re-enter Password</label>
+                      <div class="col-sm-7">
+                        <input type="password" name="re-enter" class="form-control" id="re-enter" oninput="passwor()" required placeholder="Re-Enter Password">
+                        <span id="match" style="color: red;font-size:10px;"></span>
+
+                    </div>
+                        
+                    </div>
+                    <div class="form-group row">
+                      <div class="col-sm-12" align="center">
+                        <button type="button" data-bs-dismiss="modal" class="btn btn-success" id="btnsave">Add</button>
+                      </div>
+                    </div>
+                  </form>
+            </div>
+          </div>
+        </div>
+      </div>
+{%endblock%}
+</html>
+
+<script>
+
+function passwor(){
+  var ename = document.getElementById('enamea').value;
+  var pass1 = document.getElementById('passworda').value;
+  var pass2 = document.getElementById('re-enter').value;
+  let pattern = /\W/g;
+  let pass_pat = /[A-Z]\w+\W+\d+/g;
+  let len = pass1.length
+  let result = ename.search(pattern);
+  let pass = pass1.match(pass_pat);
+
+  if(result >= 0){
+    document.getElementById('sympbol_msg').innerHTML = '!,@,#,% Special case not allowed...'
+    }
+    else{
+      document.getElementById('sympbol_msg').innerHTML = ''
+    }
+
+  if(pass1 == pass && len >= 8){
+    document.getElementById('pass_condition').innerHTML = ''
+  }
+  else{
+    document.getElementById('pass_condition').innerHTML = 'Password is first later is[A-Z] and [a-z] min 8 charecter, special case Eg. Example@12'
+  }
+  
+  if(pass1 != pass2){
+    document.getElementById('match').innerHTML = 'Password dose not match...'
+  }
+  else{
+    document.getElementById('match').innerHTML = ''
+  }
+}
+</script>

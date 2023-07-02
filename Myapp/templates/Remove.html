@@ -1,0 +1,23 @@
+<!-- The Remove Modal -->
+<div class="modal" id="remove"  style="margin-top:200px;">
+    <div class="modal-dialog">
+      <div class="modal-content">
+  
+        <!-- Modal Header -->
+        <div class="modal-header">
+          <!-- <button type="button" class="btn-close" data-bs-dismiss="modal"></button><br> -->
+          <h4>Are you sure about remove this employee</h4>
+        </div>
+  <div class="modal-body">
+            <form method="post">
+                {%csrf_token%}
+                <center>
+              <span><input type="hidden" name="empid" id="myid"></span>
+              <button type="button" class="btn btn-danger" data-bs-dismiss="modal" id="remove-emp">Ok</button>
+                      <button type="button" class="btn btn-primary" data-bs-dismiss="modal">Cancel</button></center>
+            </form>
+        </div>
+      </div>
+    </div>
+  </div>
+  <div>

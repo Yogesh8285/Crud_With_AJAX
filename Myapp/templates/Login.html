@@ -1,0 +1,29 @@
+{% extends "Homepage.html" %}
+{% block content %}
+
+<body>
+    <center>
+    <div class="container col-sm-8" >
+        <div>
+            <form method="post">
+                {%csrf_token%}
+                <h1 align="center">Edit Page</h1>
+            <table id="table" class="table" border="1">
+                    <td>Enter Email Id</td>
+                    <td><input type="email" name="email" required></td>
+                </tr>
+                    <td>Enter Password</td>
+                    <td><input type="password" name="password"required></td>
+                </tr>
+                <tr><td colspan="2" align="center"><input type="submit" class="btn btn-success" value="Login">
+                    <br><span style="color:red;">{{msg}}</span></td>
+                </tr>
+            </table>
+            </form>
+            <span align="center"><a href="/">If you don't have an accout</a></span>
+        </div>
+
+    </div>
+</center>
+</body>
+{%endblock%}

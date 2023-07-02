@@ -1,0 +1,78 @@
+<!-- The Edit Modal -->
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
+<style>
+    .form-control {
+        margin: 5px;
+    }
+</style>
+<div class="modal" id="EditModal">
+    <div class="modal-dialog">
+      <div class="modal-content">
+  
+        <!-- Modal Header -->
+        <div class="modal-header">
+          <h4 class="modal-title">Edit Page</h4>
+          <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
+        </div>
+  
+        <!-- Modal body -->
+        <div class="modal-body">
+          <form method="post">
+            <div class="form-group row" >
+                <label for="ename" class="col-sm-4 col-form-label">Employee name</label>
+                <div class="col-sm-7">
+                  <input type="hidden" name="empid" id="id">
+                  <input type="text" class="form-control" id="ename" placeholder="Employee name">
+                </div>
+              </div>
+            <div class="form-group row">
+                <label for="email" class="col-sm-4 col-form-label">Enter Email</label>
+                <div class="col-sm-7">
+                    <input type="email" class="form-control" id="email" placeholder="Enter Email">
+                </div>
+            </div>
+            <div class="form-group row">
+                <label for="dob" class="col-sm-4 col-form-label">Birth Date</label>
+                <div class="col-sm-7">
+                  <input type="date" class="form-control" id="dob">
+                </div>
+            </div>
+            <div class="form-group row">
+                <label for="gender" class="col-sm-4 col-form-label">Select Gender</label>
+                <div class="col-sm-7">
+        
+                  <input type="radio" name="gender" id="gender" class="gender" value="Male"> Male
+                  <input type="radio" name="gender" id="gender" class="gender" value="Female"> Female
+                </div>
+              </div>
+            <div class="form-group row">
+            <label for="education" class="col-sm-4 col-form-label">Select Education Field</label>
+            <div class="col-sm-7">
+                <select name="education" id="education" class="form-control form-control-md " required>
+                    <option disabled selected>Select Education</option>
+                    <option >BE</option>
+                    <option >Btech</option>
+                    <option >Bsc</option>
+                    <option >Bcom.</option>
+                    </optgroup>
+                </select>
+            </div>
+            </div>
+            <div class="form-group row">
+              <label for="pass" class="col-sm-4 col-form-label">Password</label>
+              <div class="col-sm-6">
+                <input type="password" class="form-control" id="pass" required placeholder="Password">
+            </div>
+                <div class="fa fa-eye col-sm" onclick="visible()" style="margin: auto;"></div>
+                <hr>
+            </div>
+            <div class="form-group row">
+              <div class="col-sm-12" align="center" >
+                <button type="button" data-bs-dismiss="modal" class="btn btn-success" id="EditButton">Edit</button>
+              </div>
+            </div>
+          </form>
+        </div>
+      </div>
+    </div>
+  </div>

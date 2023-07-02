@@ -1,0 +1,247 @@
+{% extends "Homepage.html" %}
+{% block content %}
+
+{% load static %}
+<script type="text/javascript" src="{% static 'javascript/script1.js' %}"></script>
+<script type="text/javascript" src="{% static 'javascript/script2.Js' %}"></script>
+<div class="container">
+    <div>
+        <table class="table">
+            <h1 align="center">Employee Details</h1>
+            <tr><th>SrNo.</th>
+                <th>Emp.Id</th>
+                <th>Emp. Name</th>
+                <th>Email</th>
+                <th>Birth date</th>
+                <th>Gender</th>
+                <th>Education</th>
+                <th>Password</th>
+                <th>Action</th></tr>
+            <tbody id="tbody">
+                {%for emp in data%}
+                <form id="myform{{emp.id}}">
+                  <tr><td>{{forloop.counter}}</td>
+                      <td>{{emp.id}}</td>
+                      <td><input type="hidden" name="empid" value="{{emp.id}}">{{emp.ename}}</td>
+                      <td>{{emp.email}}</td>
+                      <td>{{emp.Birth_date}}</td>
+                      <td>{{emp.gender}}</td>
+                      <td>{{emp.education}}</td>
+                      <td>{{emp.password}}</td>
+                      <td><button type="button" class="btn btn-primary btn-sm" data-bs-toggle="modal" data-bs-target="#EditModal" onclick="editcall('{{emp.id}}')">Edit</button> 
+                          <button type="button" class="btn btn-danger btn-sm btn-del" data-bs-toggle="modal" data-bs-target="#remove" data-eid="{{emp.id}}" onclick="Remove('{{emp.id}}')">Remove</button></td></tr>  
+                </form>
+                {%endfor%}  
+            </tbody>
+        </table>
+        <button type="button" class="btn btn-primary btn-sm" data-bs-toggle="modal" data-bs-target="#myModal">Add New</button>
+                {%if 'email' in request.session%}
+                <a href="/Logout" class="btn btn-danger btn-sm">Logout</a>{%endif%}
+    </div>
+</div>
+{% include 'Remove.html'%}
+{% include 'Edit.html'%}
+{% include 'Add.html'%}
+</div>
+
+<script>
+// Add Employee code
+
+  $("#btnsave").click(function(){
+    console.log('save button ckick');
+    output = ''
+    var id = $('#ida').val()
+    var ename = $('#enamea').val()
+    var email = $('#emaila').val()
+    var dob = $('#doba').val()
+    var education = $('#educationa').val()
+    // alert(education)
+    var gender = $('[name="gender"]:checked').val()
+    // alert(gender);
+    
+    var password = $('#passworda').val()
+    var csr = $("input[name=csrfmiddlewaretoken]").val();
+    if(ename == '' || email == ''){
+    console.log('plz enter field')
+}
+    else{
+//     console.log(id)
+// console.log(id)
+// console.log(id)
+      mydata = {ename:ename,email:email,dob:dob,education:education,gender:gender,password:password,csrfmiddlewaretoken:csr}
+      $.ajax({
+        url: "{% url 'add' %}",
+        method:"POST",
+        data : mydata,
+        dataType:'json',
+        success: function(data){
+           console.log(data);
+          if (data.status == "save"){
+            if(data.employee){
+              x = data.employee;
+            console.log("From submited");
+            $("#addForm")[0].reset();
+            for (i=0; i<x.length; i++){
+              
+              output += "<tr><td>"+(i+1)+
+                "</td><td>"+x[i].id +
+                  "</td><td>"+x[i].ename+
+                  "</td><td>"+x[i].email+
+                  "</td><td>"+x[i].Birth_date+
+                  "</td><td>"+x[i].education+
+                  "</td><td>"+x[i].gender+
+                  "</td><td>"+x[i].password+                                                                                                                 
+                  "</td><td><button type='button' class='btn btn-primary btn-sm' data-bs-toggle='modal' data-bs-target='#EditModal' onclick='editcall("+x[i].id+")' style='margin-right: 4px;'>Edit</button>"+
+                  "<button type='button' class='btn btn-danger btn-sm btn-del' data-bs-toggle='modal' data-bs-target='#remove' onclick='Remove("+x[i].id+")'>Remove</button>"
+                  }
+                  $("#tbody").html(output);
+          } else {
+              x = data.msg;
+              document.getElementById('msg').value = x;
+              alert(x)
+            
+            }
+           
+            
+
+                
+            }
+            // $("#tbody").html(output);
+          }
+          // if (data.status == 0){
+          //   console.log("From not submited")
+          // }
+        })
+      
+      }});
+
+
+// Edit Employee code
+
+function editcall(myid){
+  // alert(myid);
+  var id = myid;
+  mydata = {empid:id}
+  console.log('Button click');
+  $.ajax({
+        url: "{% url 'testing' %}",
+        method:"GET",
+        data : mydata,
+        dataType:'json',
+        success: function(data){
+           console.log(data.employee);
+          if (data.status == "save"){
+            x = data.employee;
+            // alert(x[0].gender)
+            document.getElementById("id").value = x[0].id;
+            document.getElementById("ename").value = x[0].ename;
+            document.getElementById("email").value = x[0].email;
+            document.getElementById("dob").value = x[0].Birth_date;
+            document.getElementById("education").value = x[0].education;
+            document.getElementById("pass").value = x[0].password ;
+            var check = document.getElementsByClassName("gender");
+            if(x[0].gender == 'Male')
+                {
+                check[0].checked = true;
+              }
+            else{
+                check[1].checked = true;}
+            // document.getElementById("gender").value = x[0].gender ;
+            console.log("From submited");}}})
+          }
+
+$("#EditButton").click(function(){
+    console.log('save button ckick');
+    output = ''
+    var empid = $('#id').val()
+    var ename = $('#ename').val()
+    var email = $('#email').val()
+    var dob = $('#dob').val()
+    var education = $('#education').val()
+    var gender = $('[name="gender"]:checked').val()
+    var password = $('#pass').val()
+    var csr = $("input[name=csrfmiddlewaretoken]").val();
+    if(ename == '' || email == ''){
+    console.log('plz enter field')
+}
+    else{
+//     console.log(id)
+// console.log(id)
+// console.log(id)
+      mydata = {empid:empid,ename:ename,email:email,dob:dob,education:education,gender:gender,password:password,csrfmiddlewaretoken:csr}
+      $.ajax({
+        url: "{% url 'Edit' %}",
+        method:"POST",
+        data : mydata,
+        dataType:'json',
+        success: function(data){
+           console.log(data.employee);
+          if (data.status == "save"){
+            x = data.employee;
+            console.log("From submited");
+            $("#addForm")[0].reset();
+            for (i=0; i<x.length; i++){
+              output += "<tr><td>"+(i+1)+
+                "</td><td>"+x[i].id +
+                  "</td><td>"+x[i].ename+
+                  "</td><td>"+x[i].email+
+                  "</td><td>"+x[i].Birth_date+
+                  "</td><td>"+x[i].education+
+                  "</td><td>"+x[i].gender+
+                  "</td><td>"+x[i].password+
+                    "</td><td><button type='button' class='btn btn-primary btn-sm' data-bs-toggle='modal' data-bs-target='#EditModal' onclick='editcall("+x[i].id+")' style='margin-right: 4px;' >Edit</button>"+
+                    "<button type='button' class='btn btn-danger btn-sm btn-del' data-bs-toggle='modal' data-bs-target='#remove' onclick='Remove("+x[i].id+")'>Remove</button>"
+        
+                
+            }
+            $("#tbody").html(output);
+          }
+          // if (data.status == 0){
+          //   console.log("From not submited")
+          // }
+        }
+      })
+}});
+
+// // Remove employee
+
+// $("tbody").on("click", ".btn-del",function(){
+  $("#remove-emp").click(function(){
+  console.log("Delete click");
+  output = ''
+  var id = $('#myid').val()
+  var csr = $("input[name=csrfmiddlewaretoken]").val();
+  console.log(id);
+  mydata = {empid : id,csrfmiddlewaretoken:csr};
+  $.ajax({
+    url :"{% url 'Remove'%}",
+    method :"POST",
+    data :mydata,
+    dataType:'json',
+    success: function(data){
+      console.log(data.employee);
+      if (data.status == "save"){
+            x = data.employee;
+            console.log("From submited");
+            for (i=0; i<x.length; i++){
+              output += "<tr><td>"+(i+1)+
+                "</td><td>"+x[i].id +
+                  "</td><td>"+x[i].ename+
+                  "</td><td>"+x[i].email+
+                  "</td><td>"+x[i].Birth_date+
+                  "</td><td>"+x[i].education+
+                  "</td><td>"+x[i].gender+
+                  "</td><td>"+x[i].password+
+                  "</td><td><button type='button' class='btn btn-primary btn-sm' data-bs-toggle='modal' data-bs-target='#EditModal' onclick='editcall("+x[i].id+") style='margin-right: 4px;'>Edit</button>"+
+                  "<button type='button' class='btn btn-danger btn-sm btn-del' data-bs-toggle='modal' data-bs-target='#remove' onclick='Remove("+x[i].id+")'>Remove</button>"
+            }
+            $("#tbody").html(output);
+    }
+  }
+  })
+})
+
+</script>
+{%endblock%}
+</html>
+

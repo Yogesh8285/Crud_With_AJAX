@@ -1,0 +1,86 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-EVSTQN3/azprG1Anm3QDgpJLIm9Nao0Yz1ztcQTwFspd3yD65VohhpuuCOmLASjC" crossorigin="anonymous">
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/2.1.1/jquery.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.2.3/dist/js/bootstrap.bundle.min.js"></script>
+    <title>Document</title>
+</head>
+
+{% block content %}
+<style>
+    div{
+        padding: 2px;
+    }
+</style>
+<body>
+    <div class="container col-sm-8" style="border: 1px solid black;margin-top: 50px;">
+        <div align="center"><h3>SignUp Page</h3></div>
+        <div class="body">
+            <form method="post">
+                {%csrf_token%}
+                <div class="form-group row">
+                    <label for="ename" class="col-sm-4 col-form-label">Employee name</label>
+                    <div class="col-sm-7">
+                      <input type="hidden" name="empid" id="id">
+                      <input type="text" class="form-control" name="ename" id="ename" placeholder="Employee name">
+                    </div>
+                  </div>
+                <div class="form-group row">
+                    <label for="email" class="col-sm-4 col-form-label">Enter Email</label>
+                    <div class="col-sm-7">
+                        <input type="email" class="form-control" name="email" id="email" placeholder="Enter Email">
+                        <span style="color: red;">{{msg}}</span>
+                    </div>
+                </div>
+                <div class="form-group row">
+                    <label for="dob" class="col-sm-4 col-form-label">Birth Date</label>
+                    <div class="col-sm-7">
+                      <input type="date" class="form-control" name="dob" id="dob">
+                    </div>
+                </div>
+                <div class="form-group row">
+                    <label for="gender" class="col-sm-4 col-form-label">Select Gender</label>
+                    <div class="col-sm-7">
+                      <input type="radio" name="gender" value="Male"> Male
+                      <input type="radio" name="gender"  id="gender" value="Female"> Female
+                    </div>
+                  </div>
+                <div class="form-group row">
+                <label for="education" class="col-sm-4 col-form-label">Select Education Field</label>
+                <div class="col-sm-7">
+                    <select name="education" id="education" class="form-control form-control-md " required>
+                        <option disabled selected>Select Education</option>
+                        <option >BE</option>
+                        <option >Btech</option>
+                        <option >Bsc</option>
+                        <option >Bcom.</option>
+                        </optgroup>
+                    </select>
+                </div>
+                </div>
+                <div class="form-group row">
+                  <label for="password" class="col-sm-4 col-form-label">Password</label>
+                  <div class="col-sm-6">
+                    <input type="password" name="password" class="form-control" id="password" required placeholder="Password">
+                </div>
+                    <div class="glyphicon glyphicon-eye-open col-sm-2" onclick="visible()" style="margin: auto;"></div>
+                  
+                </div>
+                <div class="form-group row">
+                  <div class="col-sm-12" align="center">
+                    <button type="submit" class="btn-success" align="center" >Sign In</button>
+                  </div>
+                </div>
+              </form>
+            <div align="center"><a href="/Login">If you have already account </a></div>
+        </div>
+
+    </div>
+
+</body>
+{%endblock%}
+</html>
